@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15354620310",
+    "project_id": "vehicle-man",
+    "storage_bucket": "vehicle-man.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15354620310:android:edf916be9a09e80880d5b7",
+        "android_client_info": {
+          "package_name": "com.example.vehicle_man"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeyV4iqHO2P_Fso26j3hDehQynG9g1Dqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
