@@ -12,7 +12,20 @@
           "package_name": "com.example.vehicle_man"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "15354620310-06dko8afqjkch2omog1mlbhh12s85hob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vehicle_man",
+            "certificate_hash": "960ff2c8f70eb953992adbe334e50d5ad6a6c23f"
+          }
+        },
+        {
+          "client_id": "15354620310-6v0t0pqgtrg126qbuehklv1m9baiaisv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDeyV4iqHO2P_Fso26j3hDehQynG9g1Dqo"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15354620310-0qolli9o97ad38k0smkotnq1fl13ks3b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
