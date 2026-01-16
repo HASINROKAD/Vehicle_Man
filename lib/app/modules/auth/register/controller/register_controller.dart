@@ -26,7 +26,7 @@ class RegisterController extends GetxController {
     }
 
     if (password.length < 6) {
-      Get.snackbar("Weak Password", "Minimum 6 characters required");
+      Get.snackbar("Weakk Password", "Minimum 6 characters required");
       return;
     }
 
