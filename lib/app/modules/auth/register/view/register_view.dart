@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vehicle_man/app/modules/auth/auth_controller.dart';
 import '../controller/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
@@ -7,6 +8,8 @@ class RegisterView extends GetView<RegisterController> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.find<AuthController>();
+
     return Scaffold(
       appBar: AppBar(title: const Text("Register")),
       body: SingleChildScrollView(
@@ -37,12 +40,33 @@ class RegisterView extends GetView<RegisterController> {
               ),
               const SizedBox(height: 20),
 
+              // Register button with loader
               Obx(
                 () => controller.isLoading.value
                     ? const CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: controller.register,
                         child: const Text("Register"),
+                      ),
+              ),
+
+              const SizedBox(height: 10),
+              Text('Or'),
+              const SizedBox(height: 10),
+
+              // Google Sign-In button with loader
+              Obx(
+                () => authController.isloading.value
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton.icon(
+                        icon: const Icon(Icons.login),
+                        label: const Text("Sign in with Google"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        onPressed: () => authController.signInWithGoogle(),
                       ),
               ),
             ],
