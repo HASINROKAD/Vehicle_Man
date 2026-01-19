@@ -14,6 +14,8 @@ class AuthController extends GetxController {
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
 
   RxBool isloading = false.obs;
+  RxString name = ''.obs;
+  RxString emailToShow = ''.obs;
 
   @override
   void onInit() {
@@ -36,12 +38,9 @@ class AuthController extends GetxController {
         // User cancelled the sign-in
         throw ('User cancelled Google Sign-In');
       }
-      print('Google Sign-In successful: ${googleUser.email}');
+      // print('Google Sign-In successful: ${googleUser.email}');
 
       final googleAuth = googleUser.authentication;
-
-      print('Got Google auth tokens');
-
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );
@@ -49,7 +48,9 @@ class AuthController extends GetxController {
       final userCred = await _auth.signInWithCredential(
         credential,
       ); //important line
-      print(userCred);
+      name.value = userCred.user?.displayName ?? 'NO Name';
+      emailToShow.value = userCred.user?.email ?? 'No Email';
+      Get.offAllNamed(AppRoutes.homeView);
     } on FirebaseAuthException catch (e) {
       throw Exception(e.message);
     } finally {
@@ -59,7 +60,22 @@ class AuthController extends GetxController {
 
   Future<void> login({required String email, required String password}) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      final credWithEmailAndPassword = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final userId = credWithEmailAndPassword.user?.uid;
+      final doc = await _firestore
+          .collection(FbCollection.userCollection)
+          .doc(userId)
+          .get();
+
+      if (!doc.exists) {
+        throw Exception('User profile not found');
+      }
+      name.value = '${doc['first_name']} ${doc['last_name']}';
+      emailToShow.value = credWithEmailAndPassword.user?.email ?? 'No Email';
+
       Get.offAllNamed(AppRoutes.homeView);
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Login Failed", e.message ?? "Something went wrong");
@@ -74,12 +90,13 @@ class AuthController extends GetxController {
     required String mobileNumber,
   }) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      final uCred = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      final uid = uCred.user!.uid;
 
-      await _firestore.collection(FbCollection.userCollection).add({
+      await _firestore.collection(FbCollection.userCollection).doc(uid).set({
         'first_name': firstName,
         'last_name': lastName,
         'email': email,
@@ -92,8 +109,31 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> restoreUserSession() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    emailToShow.value = user.email ?? 'No Email';
+
+    // Google user
+    if (user.displayName!.isNotEmpty) {
+      name.value = user.displayName!;
+      return;
+    }
+
+    // Email/password user
+    final doc = await _firestore
+        .collection(FbCollection.userCollection)
+        .doc(user.uid)
+        .get();
+
+    if (doc.exists) {
+      name.value = '${doc['first_name']} ${doc['last_name']}';
+    }
+  }
+
   Future<void> logout() async {
-    await _googleSignIn.disconnect();
     await _auth.signOut();
+    Get.offAllNamed(AppRoutes.loginView);
   }
 }
