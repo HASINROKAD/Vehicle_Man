@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vehicle_man/app/modules/home/controller/vehicle_controller.dart';
 import 'package:vehicle_man/app/modules/home/widget/custom_home_bottom_sheet.dart';
+import 'package:vehicle_man/app/modules/home/widget/custom_home_drawer.dart';
 
 class HomeView extends GetView<VehicleController> {
   const HomeView({super.key});
@@ -15,14 +16,16 @@ class HomeView extends GetView<VehicleController> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
+              controller.clearForm();
               Get.bottomSheet(
-                const CustomHomeBottomSheet(),
+                CustomHomeBottomSheet(),
                 isScrollControlled: true,
               );
             },
           ),
         ],
       ),
+      drawer: CustomHomeDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Obx(() {
@@ -87,11 +90,10 @@ class HomeView extends GetView<VehicleController> {
                                   color: Colors.blue,
                                 ),
                                 onPressed: () {
-                                  controller.updateVehicle(
-                                    vehicle.id!,
-                                    vehicle.name,
-                                    vehicle.number,
-                                    vehicle.ownerName,
+                                  controller.startEdit(vehicle);
+                                  Get.bottomSheet(
+                                    const CustomHomeBottomSheet(),
+                                    isScrollControlled: true,
                                   );
                                 },
                               ),
@@ -101,7 +103,28 @@ class HomeView extends GetView<VehicleController> {
                                   color: Colors.red,
                                 ),
                                 onPressed: () {
-                                  controller.deleteVehicle(vehicle.id!);
+                                  // controller.deleteVehicle(vehicle.id!);
+                                  Get.defaultDialog(
+                                    title: 'Confirm Deletion',
+                                    content: const Text(
+                                      'This action cannot be undone.',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    confirm: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        controller.deleteVehicle(vehicle.id!);
+                                        Get.back();
+                                      },
+                                      child: const Text('Delete'),
+                                    ),
+                                    cancel: OutlinedButton(
+                                      onPressed: Get.back,
+                                      child: const Text('Cancel'),
+                                    ),
+                                  );
                                 },
                               ),
                             ],

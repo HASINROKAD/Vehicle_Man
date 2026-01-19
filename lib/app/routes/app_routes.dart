@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:vehicle_man/app/modules/home/view/home_view.dart';
 import 'package:vehicle_man/app/modules/auth/login/view/login_view.dart';
 import 'package:vehicle_man/app/modules/auth/register/view/register_view.dart';
+import 'package:vehicle_man/app/modules/splash/view/splash_view.dart';
 
 class AppRoutes {
   static const String homeView = '/home_view';
   static const String loginView = '/login_view';
   static const String registerView = '/register_view';
+  static const String splashView = '/splash_view';
 }
 
 class AppPages {
@@ -30,5 +32,6 @@ class AppPages {
     createPage(name: AppRoutes.homeView, page: HomeView()),
     createPage(name: AppRoutes.loginView, page: LoginView()),
     createPage(name: AppRoutes.registerView, page: RegisterView()),
+    createPage(name: AppRoutes.splashView, page: SplashView()),
   ];
 }

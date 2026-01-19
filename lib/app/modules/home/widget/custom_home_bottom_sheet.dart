@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vehicle_man/app/modules/home/controller/vehicle_controller.dart';
 import 'package:vehicle_man/widgets/common/custom_button.dart';
 import 'package:vehicle_man/widgets/common/custom_text_field.dart';
 
-class CustomHomeBottomSheet extends StatelessWidget {
+class CustomHomeBottomSheet extends GetView<VehicleController> {
   const CustomHomeBottomSheet({super.key});
 
   @override
@@ -28,22 +30,22 @@ class CustomHomeBottomSheet extends StatelessWidget {
           ),
           CustomTextField(
             hintText: 'vehicle name',
-            controller: TextEditingController(),
+            controller: controller.nameCtrl,
           ),
           CustomTextField(
             hintText: 'vehicle number',
-            controller: TextEditingController(),
+            controller: controller.numberCtrl,
           ),
           CustomTextField(
-            hintText: 'mobile number',
-            controller: TextEditingController(),
+            hintText: 'owner name',
+            controller: controller.ownerCtrl,
           ),
 
-          CustomButton(
-            text: 'Submit',
-            onTap: () {
-              //TODO:implemetn on tap
-            },
+          Obx(
+            () => CustomButton(
+              text: controller.isEditMode.value ? 'Update' : 'Submit',
+              onTap: controller.saveVehicle,
+            ),
           ),
         ],
       ),
