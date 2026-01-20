@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:vehicle_man/app/modules/auth/auth_controller.dart';
 
@@ -10,6 +11,7 @@ import 'package:vehicle_man/utils/bindings/app_bindings.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load(fileName: ".env");
 
   Get.put(AuthController(), permanent: true);
   runApp(const MyApp());

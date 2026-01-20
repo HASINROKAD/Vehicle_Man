@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vehicle_man/app/modules/auth/auth_controller.dart';
+import 'package:vehicle_man/app/routes/app_routes.dart';
 
 class CustomHomeDrawer extends GetView<AuthController> {
   const CustomHomeDrawer({super.key});
@@ -25,6 +26,16 @@ class CustomHomeDrawer extends GetView<AuthController> {
             title: const Text('Logout', style: TextStyle(color: Colors.red)),
             onTap: () {
               controller.logout();
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.cloud, color: Colors.green),
+            title: const Text(
+              'Wheather',
+              style: TextStyle(color: Colors.green),
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.weatherView);
             },
           ),
         ],
